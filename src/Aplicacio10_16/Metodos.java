@@ -3,29 +3,34 @@ import java.io.*;
 import java.util.*;
 public class Metodos {
     public static void insertarPersona(String nombre) {
+        //Este es igual que en aplicaión 10.12
+
+        BufferedWriter out = null;
         try{
-            File archivo = new File("firmas.txt");
+            out = new BufferedWriter(new FileWriter("firmas.txt",true));
+            //append true para que se guarde sin sobreescribirse en los datos anteriores.
+            out.write("Firma: " + nombre ); //escribimos en una unica sentencia
+            out.newLine();//cambio de linea del archivo
+            System.out.println("Datos guardados correctamente.");//Si llega hasta el final nos mostrará este mensaje
+            //He mirado en el archivo datos.txt y no se sobreescribe!
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
 
-        FileWriter escritor = new FileWriter(archivo, true);
-        BufferedWriter bufferEscritor = new BufferedWriter(escritor);
-
-        // Verificar si el nombre ya existe en el archivo
-        if (!existeFirma(nombre)) {
-            bufferEscritor.write(nombre);
-            bufferEscritor.newLine();
-            bufferEscritor.close();
-            System.out.println("Firma insertada correctamente.");
-        } else {
-            System.out.println("La firma ya existe en el libro.");
+        }finally {
+            if (out != null){
+                try{
+                    out.close();//hacemos que se vacíe el búfer y se escriba en el archivo
+                }catch (IOException ex){
+                    System.out.println(ex);
+                }
+            }
         }
-    } catch(
-    IOException e)
+    }
 
-    {
-        System.err.println("Error al insertar la firma: " + e.getMessage());
-    }}
+    public static boolean existeFirma(String archivo) {
 
-    public static boolean existeFirma(String nombre) {
+        String[] f = new String[0];
+        String firma = ""; //cadena vacía
         try {
             File archivo = new File("firmas.txt");
             Scanner lector = new Scanner(archivo);
@@ -57,3 +62,6 @@ public class Metodos {
     }
     }
 }
+//-------------------------------------------
+//Problemas:
+//1. Al repetir nombres nos salta la excepcion Exception in thread "main" java.util.InputMismatchException
