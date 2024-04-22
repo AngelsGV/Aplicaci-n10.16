@@ -7,27 +7,27 @@ public class Metodos {
     public static void insertarPersona(String nombre) {
         //Esta parte es igual que en aplicaión 10.12
 
-        BufferedWriter out = null;
-        String firma = "";
-        try{
-            if(!existeFirma(nombre)) {
+        BufferedWriter out = null;//¿Porque? En este paso he seguido los ejercicios resultos del libro
+
+        try {
+            if (!existeFirma(nombre)) {
                 out = new BufferedWriter(new FileWriter("firmas.txt", true));
                 //append true para que se guarde sin sobreescribirse en los datos anteriores.
                 out.write("Firma: " + nombre); //escribimos en una unica sentencia
                 out.newLine();//cambio de linea del archivo
                 System.out.println("Datos guardados correctamente.");//Si llega hasta el final nos mostrará este mensaje
                 //He mirado en el archivo datos.txt y no se sobreescribe!
-            }else{
+            } else {
                 System.out.println("La firma está repetida.");
             }
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
 
-        }finally {
-            if (out != null){
-                try{
+        } finally {
+            if (out != null) {
+                try {
                     out.close();//hacemos que se vacíe el búfer y se escriba en el archivo
-                }catch (IOException ex){
+                } catch (IOException ex) {
                     System.out.println(ex);
                 }
             }
@@ -35,26 +35,50 @@ public class Metodos {
     }
 
     public static boolean existeFirma(String nombre) throws IOException {
+        BufferedReader in = null;
 
-        BufferedReader in = new BufferedReader(new FileReader("firmas.txt"));
-        String nombre1;
-        while ((nombre1 = in.readLine()) != null){
-            if (nombre1.equals(nombre)){
-                in.close();
-                return true;
+        try {
+            in = new BufferedReader(new FileReader("firmas.txt"));
+            String firma;
+            while ((firma = in.readLine()) != null) {
+                if (firma.equals(nombre)) {
+                    // in.close();
+                    return true;
+                }
             }
-        }return false;
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    System.out.println(ex);
+                }
+            }
+        }
+        return false;
     }
 
-    public static void mostrarFirmas(){ try {
-        BufferedReader in = null;
-        String firma = "";
-        try{
+    public static void mostrarFirmas() {
 
-            in = new BufferedReader(new FileReader("firmas.txt"));
+        BufferedReader in = null;
+        try {
+                in = new BufferedReader(new FileReader("firmas.txt"));
+                String firma;
+            while ((firma = in.readLine()) != null) {
                 System.out.println(firma);
-        }catch (IOException ex){
+            }
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    System.out.println(ex);
+                }
+            }
         }
     }
 }
