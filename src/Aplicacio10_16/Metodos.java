@@ -6,31 +6,24 @@ import java.io.*;
 public class Metodos {
     public static void insertarPersona(String nombre) {
         //Esta parte es igual que en aplicaión 10.12
+        //Insertará nueva firma si no está repetida
 
         BufferedWriter out = null;//¿Porque? En este paso he seguido los ejercicios resultos del libro
 
         try {
-            if (!existeFirma(nombre)) {
+            if (!existeFirma(nombre)) {//Si no se repite la firma se instera en el archivo
                 out = new BufferedWriter(new FileWriter("firmas.txt", true));
                 //append true para que se guarde sin sobreescribirse en los datos anteriores.
                 out.write("Firma: " + nombre); //escribimos en una unica sentencia
                 out.newLine();//cambio de linea del archivo
                 System.out.println("Datos guardados correctamente.");//Si llega hasta el final nos mostrará este mensaje
                 //He mirado en el archivo datos.txt y no se sobreescribe!
-            } else {
+            } else {//Si eta repetida, no se graba en .txt y salta el mensaje de error
                 System.out.println("La firma está repetida.");
             }
-        } catch (IOException ex) {
+        } catch (IOException ex) {//Mensaje de excepcion
             System.out.println(ex.getMessage());
 
-        } finally {
-            if (out != null) {
-                try {
-                    out.close();//hacemos que se vacíe el búfer y se escriba en el archivo
-                } catch (IOException ex) {
-                    System.out.println(ex);
-                }
-            }
         }
     }
 
@@ -48,14 +41,6 @@ public class Metodos {
             }
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException ex) {
-                    System.out.println(ex);
-                }
-            }
         }
         return false;
     }
@@ -71,17 +56,10 @@ public class Metodos {
             }
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException ex) {
-                    System.out.println(ex);
-                }
-            }
         }
     }
 }
 //-------------------------------------------
 //Problemas:
 //1. Al repetir nombres nos salta la excepcion Exception in thread "main" java.util.InputMismatchException
+//Se que si no igualo a null, he de poner finally, pero no acabo de entender cuando se iguala y cuando no
