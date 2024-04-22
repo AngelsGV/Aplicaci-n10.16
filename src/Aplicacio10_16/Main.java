@@ -20,7 +20,7 @@ public class Main {
 
                 switch (opcion) {
                     case 1:
-                        System.out.print("Ingresa el nombre para la firma: ");
+                        System.out.print("Ingresa el nombre: ");
                         sc.nextLine(); // Limpiar el buffer
                         String nombre = sc.nextLine();
                         insertarPersona(nombre);
