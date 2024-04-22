@@ -12,6 +12,7 @@ public class Main {
             //Me he decantado por un switch porque así podemos ver el resultado(para saber si está correctamente funcionando)
         // y para poder seguir insertando personas si nos apetece.
             while (continuar) {
+
                 System.out.println("\n1. Insertar firma");
                 System.out.println("2. Mostrar libro de firmas");
                 System.out.println("3. Salir");
