@@ -1,18 +1,25 @@
+//Un libro de firmas es útil para recoger los nombres de todas las personas que han pasado por un determinado lugar.
+// Crea una aplicación que permita insertar firmas (sin repetición)
+// y mostrar el libro de firmas. Llamaremos al fichero firmas.txt.
 package Aplicacio10_16;
 import java.io.*;
-import java.util.*;
 public class Metodos {
     public static void insertarPersona(String nombre) {
-        //Este es igual que en aplicaión 10.12
+        //Esta parte es igual que en aplicaión 10.12
 
         BufferedWriter out = null;
+        String firma = "";
         try{
-            out = new BufferedWriter(new FileWriter("firmas.txt",true));
-            //append true para que se guarde sin sobreescribirse en los datos anteriores.
-            out.write("Firma: " + nombre ); //escribimos en una unica sentencia
-            out.newLine();//cambio de linea del archivo
-            System.out.println("Datos guardados correctamente.");//Si llega hasta el final nos mostrará este mensaje
-            //He mirado en el archivo datos.txt y no se sobreescribe!
+            if(!existeFirma(nombre)) {
+                out = new BufferedWriter(new FileWriter("firmas.txt", true));
+                //append true para que se guarde sin sobreescribirse en los datos anteriores.
+                out.write("Firma: " + nombre); //escribimos en una unica sentencia
+                out.newLine();//cambio de linea del archivo
+                System.out.println("Datos guardados correctamente.");//Si llega hasta el final nos mostrará este mensaje
+                //He mirado en el archivo datos.txt y no se sobreescribe!
+            }else{
+                System.out.println("La firma está repetida.");
+            }
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
 
@@ -27,39 +34,28 @@ public class Metodos {
         }
     }
 
-    public static boolean existeFirma(String archivo) {
+    public static boolean existeFirma(String nombre) throws IOException {
 
-        String[] f = new String[0];
-        String firma = ""; //cadena vacía
-        try {
-            File archivo = new File("firmas.txt");
-            Scanner lector = new Scanner(archivo);
-
-            while (lector.hasNextLine()) {
-                if (lector.nextLine().equals(nombre)) {
-                    lector.close();
-                    return true;
-                }
+        BufferedReader in = new BufferedReader(new FileReader("firmas.txt"));
+        String nombre1;
+        while ((nombre1 = in.readLine()) != null){
+            if (nombre1.equals(nombre)){
+                in.close();
+                return true;
             }
-            lector.close();
-        } catch (FileNotFoundException e) {
-            System.err.println("Error al abrir el archivo: " + e.getMessage());
-        }
-        return false;
+        }return false;
     }
 
     public static void mostrarFirmas(){ try {
-        File archivo = new File("firmas.txt");
-        Scanner lector = new Scanner(archivo);
+        BufferedReader in = null;
+        String firma = "";
+        try{
 
-        System.out.println("Libro de Firmas:");
-        while (lector.hasNextLine()) {
-            System.out.println(lector.nextLine());
+            in = new BufferedReader(new FileReader("firmas.txt"));
+                System.out.println(firma);
+        }catch (IOException ex){
+            System.out.println(ex.getMessage());
         }
-        lector.close();
-    } catch (FileNotFoundException e) {
-        System.err.println("El libro de firmas está vacío.");
-    }
     }
 }
 //-------------------------------------------
